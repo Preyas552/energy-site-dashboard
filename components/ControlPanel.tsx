@@ -5,8 +5,10 @@ interface ControlPanelProps {
   siteCount: number;
   isAnalyzing: boolean;
   analysisProgress?: string;
+  comparisonMode: boolean;
   onAnalyze: () => void;
   onClear: () => void;
+  onToggleComparison: (enabled: boolean) => void;
 }
 
 export default function ControlPanel({
@@ -14,8 +16,10 @@ export default function ControlPanel({
   siteCount,
   isAnalyzing,
   analysisProgress,
+  comparisonMode,
   onAnalyze,
   onClear,
+  onToggleComparison,
 }: ControlPanelProps) {
   return (
     <div className="absolute top-4 left-4 bg-white rounded-lg shadow-lg p-4 z-10 min-w-64">
@@ -37,6 +41,25 @@ export default function ControlPanel({
           {analysisProgress}
         </div>
       )}
+
+      <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+        <label className="flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            checked={comparisonMode}
+            onChange={(e) => onToggleComparison(e.target.checked)}
+            className="mr-2 h-4 w-4"
+          />
+          <span className="text-sm font-medium text-gray-700">
+            Compare Fuzzy vs Crisp TOPSIS
+          </span>
+        </label>
+        {comparisonMode && (
+          <p className="text-xs text-gray-500 mt-1">
+            Shows side-by-side comparison of uncertainty-aware (fuzzy) vs traditional (crisp) analysis
+          </p>
+        )}
+      </div>
 
       <div className="space-y-2">
         <button

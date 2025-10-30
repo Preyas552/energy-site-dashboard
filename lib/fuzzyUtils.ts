@@ -31,14 +31,20 @@ export function generateSolarPotentialFuzzy(solarData: SolarData): FuzzyNumber {
 
 /**
  * Generate fuzzy number for land suitability
- * Based on location characteristics (simplified for now)
+ * Based on solar potential (better solar = better land for solar)
  */
 export function generateLandSuitabilityFuzzy(solarData: SolarData): FuzzyNumber {
-  // Simplified: vary based on latitude (more variation for TOPSIS)
-  // In a real system, this would consider terrain, land use, etc.
-  const latVariation = (solarData.location.lat % 1) * 20; // 0-20 variation based on latitude
-  const baseSuitability = 70 + latVariation; // 70-90 scale
-  const uncertainty = 10;
+  // Use solar potential as a proxy for land suitability
+  // Better solar irradiance suggests better conditions overall
+  const solarScore = solarData.current_year.average_ghi;
+  
+  // Normalize to 0-100 scale (typical GHI range: 100-250 W/m²)
+  const normalizedScore = Math.min(100, Math.max(0, ((solarScore - 100) / 150) * 100));
+  
+  // Add small random variation (±5) to differentiate nearby sites
+  const randomVariation = (Math.random() - 0.5) * 10;
+  const baseSuitability = Math.max(50, Math.min(95, normalizedScore + randomVariation));
+  const uncertainty = 8;
 
   return {
     lower: Math.max(0, baseSuitability - uncertainty),
@@ -49,14 +55,14 @@ export function generateLandSuitabilityFuzzy(solarData: SolarData): FuzzyNumber 
 
 /**
  * Generate fuzzy number for grid proximity
- * Simplified: estimate based on location (urban vs rural)
+ * Estimate based on location (simplified - assumes similar distance in same area)
  */
 export function generateGridProximityFuzzy(solarData: SolarData): FuzzyNumber {
-  // Simplified: vary based on longitude (more variation for TOPSIS)
-  // In a real system, this would use actual grid infrastructure data
-  const lngVariation = Math.abs(solarData.location.lng % 1) * 10; // 0-10 variation
-  const baseDistance = 3 + lngVariation; // 3-13 km
-  const uncertainty = 2;
+  // In the same geographic area, grid proximity should be similar
+  // Add small random variation (±1 km) to differentiate sites
+  const randomVariation = (Math.random() - 0.5) * 2;
+  const baseDistance = 5 + randomVariation; // 4-6 km typical
+  const uncertainty = 1.5;
 
   return {
     lower: Math.max(0.5, baseDistance - uncertainty),
@@ -67,25 +73,41 @@ export function generateGridProximityFuzzy(solarData: SolarData): FuzzyNumber {
 
 /**
  * Generate fuzzy number for installation cost
- * Based on solar potential and location
+ * Based on solar potential (better solar = slightly lower cost per kW)
  */
 export function generateInstallationCostFuzzy(solarData: SolarData): FuzzyNumber {
-  // Simplified cost model: $/kW
-  // Better solar potential = lower cost per kW (more efficient)
-  // Add variation based on solar potential
-  const solarFactor = solarData.current_year.average_ghi / 200; // Normalize
-  const baseCost = 1200 + (1 - solarFactor) * 500; // 1200-1700 $/kW
-  const uncertainty = 200;
+  // Better solar potential = slightly lower cost per kW (more efficient ROI)
+  const solarScore = solarData.current_year.average_ghi;
+  
+  // Base cost around $1400-1600/kW
+  // Better solar (higher GHI) = slightly lower cost
+  const solarFactor = Math.max(0, Math.min(1, (solarScore - 100) / 150));
+  const baseCost = 1600 - (solarFactor * 200); // 1400-1600 $/kW
+  
+  // Add small random variation (±50) for site-specific factors
+  const randomVariation = (Math.random() - 0.5) * 100;
+  const finalCost = baseCost + randomVariation;
+  const uncertainty = 150;
 
   return {
-    lower: Math.max(1000, baseCost - uncertainty),
-    most_likely: baseCost,
-    upper: baseCost + uncertainty,
+    lower: Math.max(1000, finalCost - uncertainty),
+    most_likely: finalCost,
+    upper: finalCost + uncertainty,
   };
 }
 
 /**
  * Generate complete fuzzy site data from solar data
+ * 
+ * NOTE: Sites in the same geographic area will have similar scores because:
+ * - Solar potential is based on real NASA data (similar in same area)
+ * - Other criteria use solar data as a proxy
+ * - Small random variations help differentiate nearby sites
+ * 
+ * In a production system, you would use:
+ * - Actual terrain/land use data for land suitability
+ * - Real power grid infrastructure data for grid proximity
+ * - Detailed cost estimates based on site-specific factors
  */
 export function generateFuzzySiteData(solarData: SolarData): FuzzySiteData {
   const confidence = calculateConfidence(

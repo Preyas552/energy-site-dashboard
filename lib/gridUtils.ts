@@ -17,10 +17,70 @@ export function kmToLngDegrees(km: number, latitude: number): number {
 }
 
 /**
+ * Snap a coordinate to the nearest grid line
+ * This ensures the grid aligns with fixed geographic coordinates
+ */
+function snapToGrid(value: number, step: number, origin: number = 0): number {
+  return Math.floor((value - origin) / step) * step + origin;
+}
+
+/**
  * Generate grid cells based on configuration
  * Creates a grid of cells covering the specified bounds
+ * Grid is aligned to fixed geographic coordinates (not viewport-dependent)
  */
 export function generateGrid(config: GridConfig): GridCell[] {
+  const cells: GridCell[] = [];
+  const { cellSize, bounds, origin } = config;
+
+  // Convert km to degrees
+  const latStep = kmToLatDegrees(cellSize);
+  
+  // Use the center latitude for longitude calculation
+  const centerLat = (bounds.north + bounds.south) / 2;
+  const lngStep = kmToLngDegrees(cellSize, centerLat);
+
+  // Define grid origin
+  // If custom origin provided, use it; otherwise use default (43°N, -80°W for GTA)
+  const latOrigin = origin?.lat ?? 43.0;
+  const lngOrigin = origin?.lng ?? -80.0;
+
+  // Snap bounds to grid
+  const startLat = snapToGrid(bounds.south, latStep, latOrigin);
+  const startLng = snapToGrid(bounds.west, lngStep, lngOrigin);
+
+  // Generate cells aligned to the fixed grid
+  for (let lat = startLat; lat < bounds.north; lat += latStep) {
+    for (let lng = startLng; lng < bounds.east; lng += lngStep) {
+      const cellLat = lat + latStep / 2;
+      const cellLng = lng + lngStep / 2;
+
+      cells.push({
+        id: `cell_${cellLat.toFixed(4)}_${cellLng.toFixed(4)}`,
+        lat: cellLat,
+        lng: cellLng,
+        bounds: {
+          north: lat + latStep,
+          south: lat,
+          east: lng + lngStep,
+          west: lng,
+        },
+        selected: false,
+      });
+    }
+  }
+
+  return cells;
+}
+
+/**
+ * Generate grid with custom origin point
+ * Useful for aligning grid to specific landmarks or intersections
+ */
+export function generateAlignedGrid(
+  config: GridConfig,
+  origin: { lat: number; lng: number }
+): GridCell[] {
   const cells: GridCell[] = [];
   const { cellSize, bounds } = config;
 
@@ -31,9 +91,13 @@ export function generateGrid(config: GridConfig): GridCell[] {
   const centerLat = (bounds.north + bounds.south) / 2;
   const lngStep = kmToLngDegrees(cellSize, centerLat);
 
-  // Generate cells
-  for (let lat = bounds.south; lat < bounds.north; lat += latStep) {
-    for (let lng = bounds.west; lng < bounds.east; lng += lngStep) {
+  // Snap bounds to grid using custom origin
+  const startLat = snapToGrid(bounds.south, latStep, origin.lat);
+  const startLng = snapToGrid(bounds.west, lngStep, origin.lng);
+
+  // Generate cells aligned to the custom origin
+  for (let lat = startLat; lat < bounds.north; lat += latStep) {
+    for (let lng = startLng; lng < bounds.east; lng += lngStep) {
       const cellLat = lat + latStep / 2;
       const cellLng = lng + lngStep / 2;
 

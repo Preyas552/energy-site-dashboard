@@ -31,4 +31,8 @@ export interface GridConfig {
     east: number;
     west: number;
   };
+  origin?: {
+    lat: number;
+    lng: number;
+  };
 }
