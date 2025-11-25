@@ -8,9 +8,9 @@ set -e
 echo "🚀 Deploying TOPSIS Service to AWS Lambda..."
 
 # Configuration
-FUNCTION_NAME="topsis-service"
-REGION="us-east-1"  # Change to your preferred region
-RUNTIME="python3.11"
+FUNCTION_NAME="python-topsis"  # Your existing function name
+REGION="us-east-1"
+RUNTIME="python3.12"  # Match your existing runtime
 HANDLER="lambda_handler.lambda_handler"
 MEMORY_SIZE=1024
 TIMEOUT=30

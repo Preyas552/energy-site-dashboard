@@ -299,7 +299,10 @@ def health():
 @app.route('/api/fuzzy-topsis/analyze', methods=['POST'])
 def analyze():
     try:
+        print("Received request at /api/fuzzy-topsis/analyze")
+        print("Headers:", request.headers)
         data = request.json
+        print("Data received")
 
         # Parse alternatives (fuzzy numbers)
         alternatives = []
