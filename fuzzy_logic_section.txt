@@ -1,0 +1,17 @@
+WHY FUZZY LOGIC: DESIGN RATIONALE
+
+Our implementation utilizes Fuzzy TOPSIS rather than conventional crisp (deterministic) multi-criteria decision analysis for several well-justified reasons:
+
+• Handling Inherent Uncertainty in Urban Data: Urban planning data is rarely precise or complete. Solar irradiance measurements vary seasonally, infrastructure accessibility changes over time. Fuzzy logic represents each criterion as a triangular fuzzy number (lower, most-likely, upper), directly modeling this natural uncertainty.
+
+• Scenario-Based Decision Making: Fuzzy numbers represent optimistic, expected, and pessimistic scenarios. This supports robust decision-making compared to single-point estimates.
+
+• Statistical Foundation: Our fuzzy numbers are grounded in NASA historical data. Pessimistic bound = (historical mean - standard deviation), optimistic = (historical mean + standard deviation).
+
+• Conflicting Criteria Evaluation: Fuzzy TOPSIS preserves trade-offs between criteria rather than collapsing them to single values, enabling stakeholders to understand the complete decision landscape.
+
+• Confidence Quantification: We compute confidence scores (0-1 scale) based on data consistency and sample size, providing transparency about data reliability.
+
+• Proven Algorithmic Framework: Fuzzy TOPSIS is well-established in operations research with proven effectiveness in multi-criteria problems involving uncertainty.
+
+By combining fuzzy logic with TOPSIS, we deliver a decision support system that reflects real-world ambiguity of urban planning data while maintaining mathematical rigor and interpretability.
