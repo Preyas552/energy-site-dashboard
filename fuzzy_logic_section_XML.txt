@@ -1,0 +1,67 @@
+INJECTION INSTRUCTIONS FOR PROJECT MILESTONE 2.DOCX
+====================================================
+
+FILE TO EDIT: word/document.xml (inside the .docx ZIP archive)
+
+FIND THIS TEXT:
+<w:t>References</w:t>
+
+INJECT THE FOLLOWING XML BEFORE THE PARAGRAPH CONTAINING "References":
+
+<w:p w14:paraId="50000000" w14:textId="77777777" w:rsidR="00000000" w:rsidRDefault="00000000"><w:pPr><w:pStyle w:val="Heading1"/><w:spacing w:before="240" w:after="120"/></w:pPr><w:r><w:t>Why Fuzzy Logic: Design Rationale</w:t></w:r></w:p><w:p w14:paraId="50000001" w14:textId="77777777" w:rsidR="00000000" w:rsidRDefault="00000000"><w:r><w:t>Our implementation utilizes Fuzzy TOPSIS rather than conventional crisp (deterministic) multi-criteria decision analysis for several well-justified reasons:</w:t></w:r></w:p><w:p w14:paraId="50000002" w14:textId="77777777" w:rsidR="00000000" w:rsidRDefault="00000000"><w:pPr><w:pStyle w:val="ListBullet"/></w:pPr><w:r><w:t>Handling Inherent Uncertainty in Urban Data: Urban planning data is rarely precise or complete. Solar irradiance measurements vary seasonally, infrastructure accessibility changes over time. Fuzzy logic represents each criterion as a triangular fuzzy number (lower, most-likely, upper), directly modeling this natural uncertainty.</w:t></w:r></w:p><w:p w14:paraId="50000003" w14:textId="77777777" w:rsidR="00000000" w:rsidRDefault="00000000"><w:pPr><w:pStyle w:val="ListBullet"/></w:pPr><w:r><w:t>Scenario-Based Decision Making: Fuzzy numbers represent optimistic, expected, and pessimistic scenarios. This supports robust decision-making compared to single-point estimates.</w:t></w:r></w:p><w:p w14:paraId="50000004" w14:textId="77777777" w:rsidR="00000000" w:rsidRDefault="00000000"><w:pPr><w:pStyle w:val="ListBullet"/></w:pPr><w:r><w:t>Statistical Foundation: Our fuzzy numbers are grounded in NASA historical data. Pessimistic bound = (historical mean - standard deviation), optimistic = (historical mean + standard deviation).</w:t></w:r></w:p><w:p w14:paraId="50000005" w14:textId="77777777" w:rsidR="00000000" w:rsidRDefault="00000000"><w:pPr><w:pStyle w:val="ListBullet"/></w:pPr><w:r><w:t>Conflicting Criteria Evaluation: Fuzzy TOPSIS preserves trade-offs between criteria rather than collapsing them to single values, enabling stakeholders to understand the complete decision landscape.</w:t></w:r></w:p><w:p w14:paraId="50000006" w14:textId="77777777" w:rsidR="00000000" w:rsidRDefault="00000000"><w:pPr><w:pStyle w:val="ListBullet"/></w:pPr><w:r><w:t>Confidence Quantification: We compute confidence scores (0-1 scale) based on data consistency and sample size, providing transparency about data reliability.</w:t></w:r></w:p><w:p w14:paraId="50000007" w14:textId="77777777" w:rsidR="00000000" w:rsidRDefault="00000000"><w:pPr><w:pStyle w:val="ListBullet"/></w:pPr><w:r><w:t>Proven Algorithmic Framework: Fuzzy TOPSIS is well-established in operations research with proven effectiveness in multi-criteria problems involving uncertainty.</w:t></w:r></w:p><w:p w14:paraId="50000008" w14:textId="77777777" w:rsidR="00000000" w:rsidRDefault="00000000"><w:r><w:t>By combining fuzzy logic with TOPSIS, we deliver a decision support system that reflects real-world ambiguity of urban planning data while maintaining mathematical rigor and interpretability.</w:t></w:r></w:p>
+
+STEP-BY-STEP INSTRUCTIONS:
+==========================
+
+1. UNPACK THE DOCX FILE:
+   - Rename Project Milestone 2.docx to Project Milestone 2.zip (or use 7-Zip/WinRAR)
+   - Extract all contents to a folder
+
+2. OPEN THE XML FILE:
+   - Navigate to: word/document.xml
+   - Open it with a text editor (Notepad++, VS Code, etc.)
+
+3. FIND THE INJECTION POINT:
+   - Search for: <w:t>References</w:t>
+   - This will show you exactly where "References" appears in the XML
+   - Find the <w:p tag that contains this text (the opening paragraph tag)
+
+4. INSERT THE XML:
+   - Place your cursor RIGHT BEFORE the <w:p tag that contains References
+   - Copy and paste the entire XML block from above (starting with <w:p w14:paraId="50000000"...)
+   - Make sure you paste BEFORE the References paragraph starts
+
+5. SAVE THE FILE:
+   - Save word/document.xml
+
+6. REPACK THE DOCX:
+   - Select all files/folders in the extracted folder
+   - Create a ZIP archive
+   - Rename the ZIP file back to Project Milestone 2.docx
+   - Replace your original file
+
+EXAMPLE OF WHAT IT LOOKS LIKE:
+==============================
+
+BEFORE:
+...some content...
+<w:p w14:paraId="..." ...>
+  <w:r><w:t>References</w:t></w:r>
+</w:p>
+
+AFTER:
+...some content...
+<w:p w14:paraId="50000000" ...><w:pPr><w:pStyle w:val="Heading1"/>...Why Fuzzy Logic: Design Rationale...</w:p>
+<w:p w14:paraId="50000001" ...>Our implementation utilizes Fuzzy TOPSIS...</w:p>
+[... all the bullet points from the XML ...]
+<w:p w14:paraId="..." ...>
+  <w:r><w:t>References</w:t></w:r>
+</w:p>
+
+IMPORTANT NOTES:
+================
+
+- Make sure you have a BACKUP of the original file
+- Don't add or remove any XML tags - just insert the complete block
+- The injection is a plain XML paste - no encoding changes needed
+- All the fuzzy logic paragraphs should appear as one continuous block before References

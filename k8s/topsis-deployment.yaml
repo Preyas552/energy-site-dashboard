@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: topsis-service
+  labels:
+    app: topsis-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: topsis-service
+  template:
+    metadata:
+      labels:
+        app: topsis-service
+    spec:
+      containers:
+      - name: topsis
+        image: your-registry/topsis-service:latest
+        ports:
+        - containerPort: 5001
+        env:
+        - name: FLASK_ENV
+          value: "production"
+        - name: PORT
+          value: "5001"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 5
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: topsis-service
+spec:
+  selector:
+    app: topsis-service
+  ports:
+  - protocol: TCP
+    port: 5001
+    targetPort: 5001
+  type: ClusterIP
