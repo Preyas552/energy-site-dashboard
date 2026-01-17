@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "eslint"
   },
-  "output": "standalone",
   "dependencies": {
     "@deck.gl/core": "^9.2.2",
     "@deck.gl/layers": "^9.2.2",
