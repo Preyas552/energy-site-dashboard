@@ -1,11 +1,13 @@
 # 🌞 Energy Site Selector
 
-> Interactive solar energy site selection using real NASA data and AI-powered fuzzy TOPSIS analysis
+> AI-powered solar energy site selection using real NASA data and fuzzy TOPSIS analysis
 
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)](https://www.docker.com/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+**Perfect for**: Solar developers, researchers, students, and renewable energy enthusiasts!
 
 ---
 
@@ -18,8 +20,6 @@ This application helps you find the **best locations for solar panel installatio
 3. 🤖 **AI Analysis** - Uses fuzzy TOPSIS algorithm to rank sites
 4. 📊 **Visual Results** - See ranked sites color-coded on the map
 
-**Perfect for**: Solar developers, researchers, students, or anyone interested in renewable energy!
-
 ---
 
 ## ✨ Features
@@ -31,19 +31,32 @@ This application helps you find the **best locations for solar panel installatio
 - ✅ **Visual ranking** with color-coded results
 - ✅ **Automatic site merging** for adjacent cells
 - ✅ **Fully containerized** with Docker
+- ✅ **Cloud-ready** (Azure, AWS, GCP)
 
 ---
 
-## 🚀 Quick Start
+## ⚡ Quick Start
 
-### Option 1: Docker (Recommended - 5 minutes)
+### Option 1: Using Scripts (Easiest!)
+
+**Windows:**
+```cmd
+run.bat
+```
+
+**Mac/Linux:**
+```bash
+./run.sh
+```
+
+### Option 2: Docker (Recommended)
 
 ```bash
 # 1. Clone the repository
 git clone https://github.com/yourusername/energy-site-selector.git
 cd energy-site-selector
 
-# 2. Set your Mapbox token
+# 2. Set your Mapbox token (get free token at https://account.mapbox.com/)
 echo "NEXT_PUBLIC_MAPBOX_TOKEN=your_token_here" > .env
 
 # 3. Run with Docker
@@ -52,11 +65,9 @@ docker-compose up --build
 # 4. Open http://localhost:3000
 ```
 
-**Get Mapbox token**: https://account.mapbox.com/ (free)
+### Option 3: Manual Setup
 
-### Option 2: Manual Setup
-
-See [GETTING_STARTED.md](../GETTING_STARTED.md) for detailed instructions.
+See [GETTING_STARTED.md](GETTING_STARTED.md) for detailed instructions.
 
 ---
 
@@ -118,107 +129,155 @@ See [GETTING_STARTED.md](../GETTING_STARTED.md) for detailed instructions.
 - **Containers**: Docker & Docker Compose
 - **Cloud**: Azure Container Apps / AWS ECS / Google Cloud Run
 - **CI/CD**: GitHub Actions ready
+=======
+**That's it!** 🎉
+>>>>>>> master
 
 ---
 
 ## 📚 Documentation
 
-- 📖 **[Getting Started Guide](../GETTING_STARTED.md)** - Detailed setup for beginners
-- ⚡ **[Quick Start](../QUICK_START.md)** - For experienced users
-- 🐳 **[Container Deployment](../CONTAINER_DEPLOYMENT.md)** - Docker & Kubernetes
-- ☁️ **[Azure Deployment](../AZURE_DEPLOYMENT.md)** - Deploy to Azure
-- 📋 **[Requirements](../requirements.md)** - Full requirements specification
-- 🎨 **[Design Document](../design.md)** - Architecture and design decisions
+### 🆕 New Users
+- **[GETTING_STARTED.md](GETTING_STARTED.md)** - Complete beginner-friendly guide
+- **[SETUP_INSTRUCTIONS.txt](SETUP_INSTRUCTIONS.txt)** - Printable text version
+
+### ⚡ Experienced Users
+- **[QUICK_START.md](QUICK_START.md)** - Fast setup for developers
+
+### 🐳 Deployment
+- **[CONTAINER_DEPLOYMENT.md](CONTAINER_DEPLOYMENT.md)** - Docker & Kubernetes
+- **[AZURE_DEPLOYMENT.md](AZURE_DEPLOYMENT.md)** - Deploy to Azure
+- **[AZURE_BACKEND_OPTIONS.md](AZURE_BACKEND_OPTIONS.md)** - Azure backend hosting
+
+### 📖 Technical Documentation
+- **[requirements.md](requirements.md)** - Full requirements specification
+- **[design.md](design.md)** - Architecture and design decisions
+- **[tasks.md](tasks.md)** - Implementation tasks
 
 ---
 
-## 🎮 How to Use
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────┐
+│   Next.js Frontend (Port 3000)     │
+│   - Interactive map (Mapbox)       │
+│   - Grid selection (Deck.gl)       │
+│   - Results visualization           │
+└─────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────┐
+│   API Routes (Next.js)              │
+│   - NASA POWER proxy                │
+│   - Data processing                 │
+│   - Fuzzy number generation         │
+└─────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────┐
+│   Python TOPSIS Service (Port 5001)│
+│   - Fuzzy TOPSIS algorithm          │
+│   - Multi-criteria analysis         │
+│   - Site ranking                    │
+└─────────────────────────────────────┘
+```
+
+**Project Structure**:
+```
+energy-site-selector/
+├── app/                     # Next.js frontend application
+│   ├── api/                 # API routes
+│   ├── page.tsx             # Main application page
+│   └── layout.tsx           # Root layout
+├── components/              # React components
+├── lib/                     # Utility functions
+├── topsis-service/          # Python TOPSIS analysis engine
+├── azure-functions/         # Azure Functions (optional)
+├── k8s/                     # Kubernetes manifests
+└── docker-compose.yml       # Docker Compose configuration
+```
+
+---
+
+## 🛠️ Technology Stack
+
+### Frontend
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Map**: Mapbox GL JS
+- **Visualization**: Deck.gl
+- **Styling**: Tailwind CSS
+
+### Backend
+- **API Routes**: Next.js API Routes
+- **Analysis Engine**: Python Flask
+- **Algorithm**: Fuzzy TOPSIS
+- **Data Source**: NASA POWER API
+
+### Deployment
+- **Containers**: Docker & Docker Compose
+- **Cloud**: Azure Container Apps / AWS ECS / Google Cloud Run
+- **CI/CD**: GitHub Actions ready
+
+---
+
+## 🚀 Deployment Options
+
+| Platform | Difficulty | Cost/Month | Guide |
+|----------|-----------|------------|-------|
+| **Local (Docker)** | ⭐ Easy | $0 | [Quick Start](QUICK_START.md) |
+| **Azure Container Apps** | ⭐⭐ Easy | $20-40 | [Azure Guide](AZURE_DEPLOYMENT.md) |
+| **AWS ECS** | ⭐⭐⭐ Medium | $30-60 | [Container Guide](CONTAINER_DEPLOYMENT.md) |
+| **Kubernetes** | ⭐⭐⭐⭐ Hard | $70+ | [K8s Guide](CONTAINER_DEPLOYMENT.md) |
+
+---
+
+## 🎮 Usage
+
+1. Open http://localhost:3000
+2. Click on grid cells to select sites
+3. Click "Analyze Sites"
+4. Wait 30-60 seconds
+5. View ranked results!
+
+**Results Color Coding**:
+- 🟢 Green = Excellent (80-100)
+- 🟡 Yellow = Good (60-79)
+- 🟠 Orange = Fair (40-59)
+- 🔴 Red = Poor (0-39)
+>>>>>>> master
+
+---
+
+## 🎮 Usage
 
 1. **Select Sites**: Click on grid cells on the map
 2. **Merge Sites**: Adjacent cells automatically merge (shown in green)
 3. **Analyze**: Click "Analyze Sites" button
 4. **Wait**: Application fetches NASA data and runs analysis (30-60 seconds)
 5. **View Results**: See ranked sites with color coding:
-   - 🟢 Green = Best sites
-   - 🟡 Yellow = Good sites
-   - 🟠 Orange = Fair sites
-   - 🔴 Red = Poor sites
-
----
-
-## 📊 Analysis Criteria
-
-The fuzzy TOPSIS algorithm evaluates sites based on:
-
-| Criterion | Weight | Description |
-|-----------|--------|-------------|
-| **Solar Potential** | 40% | Average solar irradiance (W/m²) |
-| **Land Suitability** | 30% | Terrain and land use suitability |
-| **Grid Proximity** | 20% | Distance to power grid |
-| **Installation Cost** | 10% | Estimated installation cost per kW |
-
----
-
-## 🔧 Development
-
-### Project Structure
-
-```
-energy-site-selector/
-├── app/
-│   ├── api/
-│   │   ├── nasa-power/      # NASA POWER API proxy
-│   │   └── topsis/          # TOPSIS analysis endpoint
-│   ├── page.tsx             # Main application page
-│   └── layout.tsx           # Root layout
-├── components/
-│   ├── MapContainer.tsx     # Main map component
-│   ├── GridLayer.tsx        # Grid overlay
-│   ├── ControlPanel.tsx     # UI controls
-│   └── ResultsPanel.tsx     # Results display
-├── lib/
-│   ├── types.ts             # TypeScript types
-│   ├── gridUtils.ts         # Grid generation & merging
-│   ├── fuzzyUtils.ts        # Fuzzy number generation
-│   ├── solarDataUtils.ts    # Solar data processing
-│   └── topsisTypes.ts       # TOPSIS types
-└── public/                  # Static assets
-```
-
-### Local Development
-
-```bash
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
-```
+   - 🟢 Green = Excellent (80-100)
+   - 🟡 Yellow = Good (60-79)
+   - 🟠 Orange = Fair (40-59)
+   - 🔴 Red = Poor (0-39)
 
 ---
 
 ## 🐳 Docker Commands
 
 ```bash
-# Start all services
+# Start
 docker-compose up
 
 # Start in background
 docker-compose up -d
 
+# Stop
+docker-compose down
+
 # View logs
 docker-compose logs -f
 
-# Stop services
-docker-compose down
-
-# Rebuild after changes
+# Rebuild
 docker-compose up --build
 ```
 
@@ -226,12 +285,12 @@ docker-compose up --build
 
 ## 🌐 Deployment Options
 
-| Platform | Difficulty | Cost | Guide |
-|----------|-----------|------|-------|
-| **Docker Compose** | ⭐ Easy | $0 | [Guide](../CONTAINER_DEPLOYMENT.md) |
-| **Azure Container Apps** | ⭐⭐ Easy | $20-40/mo | [Guide](../AZURE_DEPLOYMENT.md) |
-| **AWS ECS** | ⭐⭐⭐ Medium | $30-60/mo | [Guide](../CONTAINER_DEPLOYMENT.md) |
-| **Kubernetes** | ⭐⭐⭐⭐ Hard | $70+/mo | [Guide](../CONTAINER_DEPLOYMENT.md) |
+| Platform | Difficulty | Cost/Month | Guide |
+|----------|-----------|------------|-------|
+| **Local (Docker)** | ⭐ Easy | $0 | [Quick Start](QUICK_START.md) |
+| **Azure Container Apps** | ⭐⭐ Easy | $20-40 | [Azure Guide](AZURE_DEPLOYMENT.md) |
+| **AWS ECS** | ⭐⭐⭐ Medium | $30-60 | [Container Guide](CONTAINER_DEPLOYMENT.md) |
+| **Kubernetes** | ⭐⭐⭐⭐ Hard | $70+ | [K8s Guide](CONTAINER_DEPLOYMENT.md) |
 
 ---
 
@@ -262,12 +321,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📧 Contact
+## 📧 Support
 
-Have questions? Open an issue or reach out!
-
+- **Documentation**: See guides above
 - **GitHub Issues**: [Create an issue](https://github.com/yourusername/energy-site-selector/issues)
-- **Email**: your.email@example.com
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/energy-site-selector/discussions)
 
 ---
 
@@ -278,3 +336,5 @@ If you find this project useful, please give it a star! It helps others discover
 ---
 
 **Built with ❤️ for renewable energy**
+
+🌞 Happy analyzing!
