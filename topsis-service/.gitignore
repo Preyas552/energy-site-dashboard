@@ -21,3 +21,10 @@ instance/
 .idea/
 *.swp
 *.swo
+
+# Lambda / deployment build artifacts
+lambda-package/
+*.zip
+
+# Logs
+*.log
